@@ -14,8 +14,6 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=123456
       - DB_NAME=student_management
-    volumes:
-      - ./be-manage-student-main:/app
     command: ["node", "index.js"]
 
   frontend:
