@@ -23,7 +23,7 @@ services:
     ports:
       - "3000:80"
     depends_on:
-      - be-manage-student-main
+      - backend
 
 
   db:
