@@ -1,0 +1,20 @@
+
+@startuml
+title Student Management Flow (Create, Update, Delete)
+
+actor Teacher
+participant ManagerStudentUI
+participant ManagerStudentController
+database STUDENTS
+
+/' --- DELETE STUDENT --- '/
+Teacher->ManagerStudentUI: 19, clickDeleteButton() 
+ManagerStudentUI->ManagerStudentUI: 20, returnAlertDelete()
+Teacher->ManagerStudentUI: 21, clickYesButton()
+ManagerStudentUI->ManagerStudentController: 22, sendRequestDeleteStudent()
+ManagerStudentController->STUDENTS: 23, receiveRequestDeleteStudent()
+STUDENTS->ManagerStudentController: 24, returnNewListStudent()
+ManagerStudentController->ManagerStudentUI: 25, returnNewListStudent()
+ManagerStudentUI->ManagerStudentUI: 26, displayNewListStudent()
+
+@enduml

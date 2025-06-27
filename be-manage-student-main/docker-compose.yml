@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=123456
+      - DB_NAME=student_management
+    volumes:
+      - ./backend:/app
+    command: ["node", "index.js"]
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: student_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

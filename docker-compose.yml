@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./be-manage-student-main
+    ports:
+      - '4000:4000'
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=123456
+      - DB_NAME=student_management
+    volumes:
+      - ./be-manage-student-main:/app
+    command: ["node", "index.js"]
+
+  frontend:
+    build: ./fe-manage-student-main
+    ports:
+      - "3000:80"
+    depends_on:
+      - be-manage-student-main
+
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: student_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+volumes:
+  pgdata:
